@@ -1,0 +1,71 @@
+package com.company;
+
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Car implements Runnable {
+    private static int CARS_COUNT;
+    static Object mon = new Object();
+    static volatile int flag1 = 1;
+    static volatile int flag2 = 1;
+    //public static Lock lock = new ReentrantLock();
+
+
+    static {
+        CARS_COUNT = 0;
+    }
+
+    private Race race;
+    private int speed;
+    private String name;
+    Thread t;
+    public String getName() {
+        return name;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public Car(Race race, int speed) {
+        this.race = race;
+        this.speed = speed;
+        CARS_COUNT++;
+        this.name = "Участник #" + CARS_COUNT;
+    }
+    @Override
+    public void run() {
+        try {
+            System.out.println(this.name + " готовится");
+            Thread.sleep(500 + (int)(Math.random() * 800));
+            System.out.println(this.name + " готов");
+            Main.cb.await();
+            if (flag2 == 1)
+            {
+                System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+                flag2 = -1;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < race.getStages().size(); i++) {
+            race.getStages().get(i).go(this);
+        }
+
+        Main.cdl.countDown();
+       synchronized (mon){
+           if (flag1 == -1)
+               return;
+           else {
+               System.out.println(this.name + ": Win");
+               flag1 = -1;
+
+           }
+       }
+
+
+
+
+    }
+}
