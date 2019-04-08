@@ -1,5 +1,5 @@
 # MultiThreading
-Простое консольное приложение для демонстрации средств многопоточности.
+Консольное приложение для демонстрации java.util.concurrent. Используются: Semaphore, CyclicBarrier, CountDownLatch, Lock.
 
 // Организуем гонки
 
