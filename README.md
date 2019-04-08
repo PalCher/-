@@ -1,5 +1,7 @@
 # MultiThreading
-Консольное приложение для демонстрации java.util.concurrent. Используются: Semaphore, CyclicBarrier, CountDownLatch, Lock.
+Консольное приложение для демонстрации java.util.concurrent.
+
+**Используются:** Semaphore, CyclicBarrier, CountDownLatch, Lock.
 
 // Организуем гонки
 
